@@ -16,9 +16,9 @@
 package io.gravitee.gateway.handlers.api.policy.plan;
 
 import io.gravitee.definition.model.Path;
+import io.gravitee.definition.model.Plan;
 import io.gravitee.gateway.api.ExecutionContext;
 import io.gravitee.gateway.handlers.api.definition.Api;
-import io.gravitee.gateway.handlers.api.definition.Plan;
 import io.gravitee.gateway.handlers.api.policy.RuleBasedPolicyResolver;
 import io.gravitee.gateway.policy.Policy;
 import io.gravitee.gateway.policy.StreamType;

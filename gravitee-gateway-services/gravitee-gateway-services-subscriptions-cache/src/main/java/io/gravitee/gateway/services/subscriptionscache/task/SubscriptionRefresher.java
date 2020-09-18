@@ -15,8 +15,8 @@
  */
 package io.gravitee.gateway.services.subscriptionscache.task;
 
+import io.gravitee.definition.model.Plan;
 import io.gravitee.gateway.handlers.api.definition.Api;
-import io.gravitee.gateway.handlers.api.definition.Plan;
 import io.gravitee.repository.management.api.SubscriptionRepository;
 import io.gravitee.repository.management.api.search.SubscriptionCriteria;
 import io.gravitee.repository.management.model.Subscription;

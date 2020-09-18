@@ -16,10 +16,10 @@
 package io.gravitee.gateway.handlers.api.manager;
 
 import io.gravitee.common.event.EventManager;
+import io.gravitee.definition.model.Plan;
 import io.gravitee.gateway.handlers.api.definition.Api;
 import io.gravitee.gateway.handlers.api.builders.ApiDefinitionBuilder;
 import io.gravitee.gateway.handlers.api.builders.ProxyDefinitionBuilder;
-import io.gravitee.gateway.handlers.api.definition.Plan;
 import io.gravitee.gateway.handlers.api.manager.impl.ApiManagerImpl;
 import io.gravitee.gateway.handlers.api.validator.ValidationException;
 import io.gravitee.gateway.handlers.api.validator.Validator;

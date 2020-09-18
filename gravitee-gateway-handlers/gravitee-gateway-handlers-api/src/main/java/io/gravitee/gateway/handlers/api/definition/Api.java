@@ -33,7 +33,7 @@ public class Api extends io.gravitee.definition.model.Api implements Reactable {
 
     private boolean enabled = true;
     private Date deployedAt;
-    private final Map<String, Plan> plans = new HashMap<>();
+
 
     public Api() {
     }
@@ -67,20 +67,6 @@ public class Api extends io.gravitee.definition.model.Api implements Reactable {
 
     public void setDeployedAt(Date deployedAt) {
         this.deployedAt = deployedAt;
-    }
-
-    public Plan getPlan(String plan) {
-        return plans.get(plan);
-    }
-
-    public Collection<Plan> getPlans() {
-        return plans.values();
-    }
-
-    public void setPlans(List<Plan> plans) {
-        for(Plan plan : plans) {
-            this.plans.put(plan.getId(), plan);
-        }
     }
 
     @Override

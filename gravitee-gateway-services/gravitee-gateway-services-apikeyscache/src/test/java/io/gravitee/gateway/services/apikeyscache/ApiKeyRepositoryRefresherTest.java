@@ -15,8 +15,8 @@
  */
 package io.gravitee.gateway.services.apikeyscache;
 
+import io.gravitee.definition.model.Plan;
 import io.gravitee.gateway.handlers.api.definition.Api;
-import io.gravitee.gateway.handlers.api.definition.Plan;
 import io.gravitee.repository.exceptions.TechnicalException;
 import io.gravitee.repository.management.api.ApiKeyRepository;
 import io.gravitee.repository.management.api.search.ApiKeyCriteria;

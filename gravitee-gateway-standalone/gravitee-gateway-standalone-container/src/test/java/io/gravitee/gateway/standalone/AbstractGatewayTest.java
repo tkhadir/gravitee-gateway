@@ -15,8 +15,8 @@
  */
 package io.gravitee.gateway.standalone;
 
+import io.gravitee.definition.model.Plan;
 import io.gravitee.gateway.handlers.api.definition.Api;
-import io.gravitee.gateway.handlers.api.definition.Plan;
 import io.gravitee.gateway.standalone.policy.ApiKeyPolicy;
 import io.gravitee.gateway.standalone.policy.KeylessPolicy;
 import io.gravitee.gateway.standalone.policy.PolicyBuilder;
