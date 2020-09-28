@@ -76,4 +76,9 @@ public class GatewayNode extends AbstractNode {
         components.add(AlertEventProducerManager.class);
         return components;
     }
+
+    @Override
+    protected void doStart() throws Exception {
+        super.doStart();
+    }
 }

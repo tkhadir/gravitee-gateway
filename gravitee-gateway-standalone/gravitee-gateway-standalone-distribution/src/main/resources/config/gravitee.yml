@@ -194,6 +194,7 @@ services:
   sync:
     # Synchronization is done each 5 seconds
     cron: '*/5 * * * * *'
+    distributed: false # Data discovered by synchronization process are distributed over multiple API gateways.
 
   # Service used to store and cache api-keys from the management repository to avoid direct repository communication
   # while serving requests.

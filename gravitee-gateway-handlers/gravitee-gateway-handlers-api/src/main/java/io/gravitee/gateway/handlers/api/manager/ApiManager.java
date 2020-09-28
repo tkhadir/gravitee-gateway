@@ -31,6 +31,18 @@ import java.util.Collection;
 public interface ApiManager {
 
     /**
+     * Register an API definition. It is a create or update operation, if the api was previously existing, the
+     * definition is updated accordingly.
+     * @param api
+     * @return
+     */
+    boolean register(Api api);
+
+    void unregister(String apiId);
+
+    void refresh();
+
+    /**
      * Deploy an API definition.
      * @param api API definition to deploy.
      */

@@ -17,7 +17,10 @@ package io.gravitee.gateway.services.sync;
 
 import io.gravitee.common.http.MediaType;
 import io.gravitee.common.service.AbstractService;
+import io.gravitee.gateway.handlers.api.manager.ApiManager;
+import io.gravitee.gateway.services.sync.apikeys.ApiKeysCacheService;
 import io.gravitee.gateway.services.sync.handler.SyncHandler;
+import io.gravitee.gateway.services.sync.subscriptions.SubscriptionsCacheService;
 import io.vertx.ext.web.Router;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,12 +34,12 @@ import org.springframework.scheduling.support.CronTrigger;
  * @author Titouan COMPIEGNE (titouan.compiegne at graviteesource.com)
  * @author GraviteeSource Team
  */
-public class ScheduledSyncService extends AbstractService implements Runnable {
+public class SyncService extends AbstractService implements Runnable {
 
     /**
      * Logger.
      */
-    private final Logger logger = LoggerFactory.getLogger(ScheduledSyncService.class);
+    private final Logger logger = LoggerFactory.getLogger(SyncService.class);
 
     private final static String PATH = "/sync";
 
@@ -53,16 +56,26 @@ public class ScheduledSyncService extends AbstractService implements Runnable {
     private boolean localRegistryEnabled;
 
     @Autowired
+    private ApiManager apiManager;
+
+    @Autowired
     private SyncManager syncStateManager;
 
     @Autowired
     private Router router;
+
+    @Autowired
+    private ApiKeysCacheService apiKeysCacheService;
+
+    @Autowired
+    private SubscriptionsCacheService subscriptionsCacheService;
 
     @Override
     protected void doStart() throws Exception {
         if (! localRegistryEnabled) {
             if (enabled) {
                 super.doStart();
+
                 logger.info("Sync service has been initialized with cron [{}]", cronTrigger);
 
                 logger.info("Associate a new HTTP handler on {}", PATH);
@@ -72,14 +85,27 @@ public class ScheduledSyncService extends AbstractService implements Runnable {
                 applicationContext.getAutowireCapableBeanFactory().autowireBean(syncHandler);
                 router.get(PATH).produces(MediaType.APPLICATION_JSON).handler(syncHandler);
 
-                // Star cron
+                // Force refresh on APIs
+                apiManager.refresh();
+
+                // Start tasks
+                apiKeysCacheService.start();
+                subscriptionsCacheService.start();
                 scheduler.schedule(this, new CronTrigger(cronTrigger));
             } else {
-                logger.warn("Sync service has been disabled");
+                logger.warn("Sync service is disabled");
             }
         } else {
             logger.warn("Sync service is disabled because local registry mode is enabled");
         }
+    }
+
+    @Override
+    protected void doStop() throws Exception {
+        apiKeysCacheService.stop();
+        subscriptionsCacheService.stop();
+
+        super.doStop();
     }
 
     @Override

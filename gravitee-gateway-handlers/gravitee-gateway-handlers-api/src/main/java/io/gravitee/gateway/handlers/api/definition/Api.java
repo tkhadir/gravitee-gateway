@@ -22,6 +22,7 @@ import io.gravitee.gateway.reactor.Reactable;
 import io.gravitee.gateway.reactor.handler.Entrypoint;
 import io.gravitee.gateway.reactor.handler.VirtualHost;
 
+import java.io.Serializable;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -29,7 +30,7 @@ import java.util.stream.Collectors;
  * @author David BRASSELY (david.brassely at graviteesource.com)
  * @author GraviteeSource Team
  */
-public class Api extends io.gravitee.definition.model.Api implements Reactable {
+public class Api extends io.gravitee.definition.model.Api implements Reactable, Serializable {
 
     private boolean enabled = true;
     private Date deployedAt;
