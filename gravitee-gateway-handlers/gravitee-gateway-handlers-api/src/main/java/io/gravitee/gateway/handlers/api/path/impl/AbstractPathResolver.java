@@ -90,11 +90,12 @@ public abstract class AbstractPathResolver implements PathResolver {
     protected void register(Path path) {
         String [] branches = path.getPath().split(URL_PATH_SEPARATOR);
         StringBuilder buffer = new StringBuilder(URL_PATH_SEPARATOR);
-
+        List<String> pathParamNames = new ArrayList<>();
         for(String branch : branches) {
             if (! branch.isEmpty()) {
                 if (branch.startsWith(PATH_PARAM_PREFIX)) {
-                    buffer.append(PATH_PARAM_REGEX);
+                    buffer.append("(" + PATH_PARAM_REGEX + ")");
+                    pathParamNames.add(branch.substring(1));
                 } else {
                     buffer.append(branch);
                 }
@@ -107,6 +108,7 @@ public abstract class AbstractPathResolver implements PathResolver {
         buffer.append('?');
 
         path.setPattern(Pattern.compile(buffer.toString()));
+        path.setPathParamNames(pathParamNames);
         registeredPaths.add(path);
     }
 }

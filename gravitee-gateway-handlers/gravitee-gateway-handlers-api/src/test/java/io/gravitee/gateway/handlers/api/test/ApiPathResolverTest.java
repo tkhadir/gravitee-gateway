@@ -28,9 +28,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 import static org.mockito.Mockito.when;
 
@@ -84,6 +82,10 @@ public class ApiPathResolverTest {
                 Path p6 = new Path();
                 p6.setPath("/Stores/:storeId");
                 put(p6.getPath(), p6);
+
+                Path p7 = new Path();
+                p7.setPath("/stores/:storeId/order/:orderId");
+                put(p7.getPath(), p7);
             }
         });
 
@@ -133,6 +135,7 @@ public class ApiPathResolverTest {
         Assert.assertNotNull(path);
 
         Assert.assertEquals("/stores/:storeId", path.getPath());
+        validatePathParams(path.getPathParamNames(), "storeId");
     }
 
     @Test
@@ -142,6 +145,7 @@ public class ApiPathResolverTest {
         Assert.assertNotNull(path);
 
         Assert.assertEquals("/stores/:storeId", path.getPath());
+        validatePathParams(path.getPathParamNames(), "storeId");
     }
 
     @Test
@@ -187,6 +191,7 @@ public class ApiPathResolverTest {
         Assert.assertNotNull(path);
 
         Assert.assertEquals("/stores/:storeId", path.getPath());
+        validatePathParams(path.getPathParamNames(), "storeId");
     }
 
     @Test
@@ -196,6 +201,7 @@ public class ApiPathResolverTest {
         Assert.assertNotNull(path);
 
         Assert.assertEquals("/stores/:storeId", path.getPath());
+        validatePathParams(path.getPathParamNames(), "storeId");
     }
 
     @Test
@@ -205,6 +211,7 @@ public class ApiPathResolverTest {
         Assert.assertNotNull(path);
 
         Assert.assertEquals("/stores/:storeId", path.getPath());
+        validatePathParams(path.getPathParamNames(), "storeId");
     }
 
     @Test
@@ -214,6 +221,7 @@ public class ApiPathResolverTest {
         Assert.assertNotNull(path);
 
         Assert.assertEquals("/stores/:storeId", path.getPath());
+        validatePathParams(path.getPathParamNames(), "storeId");
     }
 
     @Test
@@ -242,6 +250,7 @@ public class ApiPathResolverTest {
         Assert.assertNotNull(path);
 
         Assert.assertEquals("/Stores/:storeId", path.getPath());
+        validatePathParams(path.getPathParamNames(), "storeId");
     }
 
     @Test
@@ -251,5 +260,22 @@ public class ApiPathResolverTest {
         Assert.assertNotNull(path);
 
         Assert.assertEquals("/stores/:storeId", path.getPath());
+        validatePathParams(path.getPathParamNames(), "storeId");
+    }
+
+    @Test
+    public void resolve_pathWithContextPath_mustReturnParameteriedPath6() {
+        when(request.pathInfo()).thenReturn("/stores/my_petstore/order/190783");
+        io.gravitee.gateway.handlers.api.path.Path path = pathResolver2.resolve(request);
+        Assert.assertNotNull(path);
+
+        Assert.assertEquals("/stores/:storeId/order/:orderId", path.getPath());
+        validatePathParams(path.getPathParamNames(), "storeId", "orderId");
+    }
+
+    private void validatePathParams(List<String> pathParamNames, String... expectedPathsParams) {
+        Assert.assertNotNull(pathParamNames);
+        Assert.assertEquals(expectedPathsParams.length, pathParamNames.size());
+        Assert.assertTrue(pathParamNames.containsAll(Arrays.asList(expectedPathsParams)));
     }
 }
